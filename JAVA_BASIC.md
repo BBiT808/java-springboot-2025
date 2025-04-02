@@ -94,6 +94,8 @@
     - 논리연산 : &&, ||, !
     - 관계연산 : ==, >, >=, <, <=, !=
 
+- [Java연습](./day01/spring01/src/main/java/com/bbit808/spring01/Spring01Application.java)
+
 #### 흐름제어
 - 조건문(분기문) : if문, switch문
     - if문
@@ -139,6 +141,8 @@
     }
     ```
 
+- [Java연습](./day01/spring02/src/main/java/com/bbit808/spring02/Spring02Application.java)
+
 - 반복문 : for문, while문, do-while문
 
     - for문 - 대표적인 반복문
@@ -153,6 +157,7 @@
         실행코드 블럭;
     }
     ```
+- [Java연습](./day01/spring03/src/main/java/com/bbit808/spring03/Spring03Application.java)
 
     - while문 ; 조건식이 참인 동안 계속 반복
     ```java
@@ -169,6 +174,8 @@
     } while(조건식);
 
     ```
+- [Java문법실습](./day02/spring01/src/main/java/com/bbit808/spring01/Spring01Application.java)
+
 
 - 반복 제어 키워드 : break, continue
     - for문, while문 내에서 사용
@@ -204,6 +211,8 @@
 - Java 컬렉션 프레임워크 ; 배열을 좀더 기능적으로 강화한 객체
     - **List**, Stack, Vector, ArrayList, HashSet, HashMap(파이썬 딕셔너리), HashTable
 
+- [Java문법실습](./day02/spring02/src/main/java/com/bbit808/spring02/Spring02Application.java)
+
 #### 매서드
 - 함수와 동일. 객체지향언어에서는 함수를 메서드로 사용.
 
@@ -229,3 +238,87 @@
 - **null**
     - 프로그래밍 상에 모든 곳에서 null이라고 사용
     - 파이썬만 None으로 사용
+
+- [Java문법실습](./day02/spring03/src/main/java/com/bbit808/spring03/Spring03Application.java)
+
+#### 객체 / 클래스
+- 개요
+    - 현실세계를 반영하여서 프로그래밍을 하는 기법
+    - Object-Oriented Programming - OOP, 객체지향 프로그래밍
+        - C++, Java, Python, C#, Go, Rust, Kotlin ...
+     > vs. Procedure-Oriented Programming - 절차적 프로그래밍
+        > - C, SQl, ...
+
+- 클래스 개요
+    - 객체를 정의하는 틀
+    - 명사와 동사 ; 명사는 변수 !! 동사는 메서드 !! >> 객체구현
+        > 명사(멤버변수/속성)와 동사(멤버메서드)의 집합
+    
+    ```java
+    class NewCar {
+        // 명사부분(멤버변수/속성)
+        String model_name;
+        String company;
+        String color;
+        int release_year;
+
+        // 동사부분(메서드)
+        public void accelerate() { // 가속
+        }
+        public void doBreak() { // 중지
+        }
+        public void changeGear(){ // 기어변동
+        }
+        public void turnLeft() { // 좌회전
+        }
+        public void turnRight() { // 우회전
+        }
+        
+        // 생성자함수(파이썬 __init__와 유사)
+        NewCar() {
+            model_name = "없음";
+            company = "현대자동차";
+        }
+        NewCar(String model_name, String company, int release_year) {
+            this.model_name = model_name;
+            this.company = company;
+            this.release_year = release_year;
+        }
+    }
+    ```
+
+- 인스턴스(instance)
+    - 객체를 만드는 클래스를 new로 새로 생성
+    - 두 개의 인스턴스 아래? 하나를 가르칠 수 없음
+
+- [Java문법실습](./day02/spring04/src/main/java/com/bbit808/spring04/Spring04Application.java)
+
+    ```java
+    NewCar avante = new NewCar(); // 기본생성자
+    NewCar tesla = new NewCar("X3", "Tesla", 2021); //  인자초기화 생성자
+
+    tesla.turnRight(); // 우회전
+    // ...
+    ```
+
+
+#### 상속
+- 객체지향에 중요하 의미의 개념
+- 부모클래스가 가지고 있는 속성, 매서드를 가져다 슬쓸 수 있는 기능 
+- 예 - 동물 > 포유류, 양서류, 파충류 등으로 분류
+
+- 특징
+    - 부모(슈퍼) 클래스에서 정의된 변수와 메서드를 물려받는다.
+    - 새로운 변수와 메서드를 추가할 수 있다.
+    - 부모클래스에서 물려받은 메서드를 수정할 수 있다.(오버라이딩)
+    - 동인한 부모클래스를 상속받는 하위 자실 클래스들은 타입이 호환된다.
+
+    ```java
+    [접근제어자] class 클래스명 extends 부모클래스명 {
+        // 부모클래스에 없는 멤버변수, 메서드 추가
+        // 부모 메서드를 오버라이딩
+    }
+    ```
+- [Java문법실습](./day02/spring05/src/main/java/com/bbit808/spring05/Spring05Application.java)
+
+
