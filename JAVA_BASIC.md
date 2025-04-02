@@ -203,3 +203,6 @@
 
 - Java 컬렉션 프레임워크 ; 배열을 좀더 기능적으로 강화한 객체
     - List, Stack, Vector, **ArrayList**, HashSet, HashMap(파이썬 딕셔너리), HashTable
+
+#### 매서드
+- 함수와 동일. 객체지향언어에서는 함수를 메서드로 사용.
