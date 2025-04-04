@@ -384,6 +384,7 @@
 
 - 스프링의 의존성 주입(Dependency Injection)의 핵심
 
+- [Java문법실습](./day03/spring01/src/main/java/com/bbit808/spring01/Spring01Application.java)
 
 #### 예외처리
 - 프로그램의 비정상적 종료를 막기 위한 보호막
@@ -404,6 +405,8 @@
   > 모든 예외클래스는 Exception 클래스를 상속받아서 생성 !!
 - 단순히 Exception 클래스로 예외처리 해도 무방
 
+- [Java문법실습](./day03/spring02/src/main/java/com/bbit808/spring02/Spring02Application.java)
+
 ##### 예외던지기 ; 나를 호출한 함수에게 처리하라고 던져벌이기~
 - 예외를 직접 처리하지 않고 상위 클래스나 메서드에게 처리를 인가함 !!
     ```java
@@ -418,6 +421,7 @@
         예외처리
     }
     ```
+- [Java문법실습](./day03/spring02/src/main/java/com/bbit808/spring02/Spring02Application.java)
 
 #### 객체지향 특징
 - 추가로 학습할 내용
@@ -425,9 +429,116 @@
 
 
  #### 문자열, 시간타입 핸들링
- - String
+ - [Java.lang.String](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html)
     - 컴퓨터 > 숫자, 사람 > 문자
 
+- [Java문법실습](./day03/spring04/src/main/java/com/bbit808/spring04/Spring04Application.java)
+
+#### 시간타입 핸들링
+- [java.time](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/time/package-summary.html)
+- time
+    - 날짜와 시간을 처리할 때 사용
+
+- [Java문법실습](./day03/spring04/src/main/java/com/bbit808/spring04/Spring04Application.java)
 
 
+#### 제네릭 ; 파이썬의 기능과 비슷..?
+- **파이썬과 다르게** Java는 단일형만 배열이나 컬렉션에서 사용할 수 있음!!
+- Object 타입으로 지정하면 무슨 형이든 다 할당 가능 !!
+- `다양한 타입의 객체들을 다루는 메서드나 컬렉션 클래스를 컴파일 과정에서 안전하게 타입체크 해주는 기능 !!`
+- 장점 !!
+    - 객체 생성 시 개발자가 원하는 타입을 지정 가능 ; Java나 C+ 언어들은 타입이 지정되어 있음 !
+    - 타입 안정성 제공! 
+    - 의도하지 않은 타입의 객체가 저장되는 것을 차단, 오류방지
+    - 형변환의 번거로움이 없음
+
+    ```java
+    class 클래스명<T> { // 가상 타입의 이름을 T로 작성 !!! (T는 가변타입이기 때문에 뭐든지 작성 가능 !!)
+        T 변수;
+        // getter/setter
+    }
+
+    public static void main(String[] args) {
+        클래스명<String> 변수명 = new 클래스명<>();
+    }
+
+    ```
+- T는 가변타입. String, int, double 다 지정 가능!
+- T, P, K, TP 등 가변타입의 명칭은 편하게 지정 !! ; Spring Boot에 **아 주 많 이** 등장 !!
+
+- [Java문법실습](./day04/spring02/src/main/java/com/bbit808/spring02/Spring02Application.java)
+
+#### 원시타입의 클래스
+- int, double, float, byte 등 소문자 타입은 C와 같은 구(예전)언어를 배운 사람의 편의성을 위해 *추가한 기능* !!
+- Integer, Double, Float, Byte 등 대문자로 시작하는 타입이 **진짜 Java 클래스 타입 !!**
+- 제네릭을 쓸 때는 클래스 타입만 허용 !!
+
+#### 자료구조
+- 다수의 데이터를 저장, 관리하기 위한 목적으로 나온 것 - 자료구조 !!
+- 배열 : 다수의 데이터를 저장, 관리하기 위해 최초로 개발
+    > 배열의 단점을 개선한 것 : 리스트, 맵, 튜플, 딕셔너리, 그래프, 트리...
+        - 배열보다 데이터 사이즈가 커지지만 속도는 개선 !
+- 이런 자료 구조를 `Java 컬렉션 프레임워크`라고 지칭 !
+
+#### Java 컬렉션 프레임워크
+
+<img src ="./image/sb0002.png" width ="750">
+
+- List : 순서가 있는 데이터 집합. 데이터 중복 허용
+- Set : 순서가 없는 데이터 집합. 데이터 중복 허용 X !!
+- Map : 키와 값의 쌍의 데이터 집합. 순서 X, 키 중복 X, 값 중복 X !!
+
+##### Collection 인터페이스
+- List, Queue, Set 인터페이스의 상위 인터페이스
+- 컬렉션 생성 시
+
+    ```java
+    ArrayList<String> list = new ArrayList<>(); // *권장 안 함 !!* ; 되기는 함 !!
+    List<String> list = new ArrayList<>(); // 일반적이진 않음 ~
+    List<String> list = new ArrayList<>(); // 권장 !!
+    ```
+
+- 셋 인터페이스
+    - HashSet
+
+- 맵 인터페이스
+    - HashMap
+
+- [Java문법실습](./day04/spring03/src/main/java/com/bbit808/spring03/Spring03Application.java)
+
+#### 람다식
+- 함수형 프로그래밍 언어의 특징을 객체지향 언어에 녹여넣은 것
+    > 함수형 인터페이스라고 부름
+- 익명 함수로 부르기도 함 !
+- 코드의 간결성 : 코딩 구문이 확 줄어듦 !! ; 대신 초보자들이 보기에 이해가 어려울 수 있음 . . .
+
+    ```java
+    // 기존방식
+    [접근제어자] 리턴타입 메서드명(매개변수, ...) {
+        코드 블럭;
+    }
+
+    // 람다식
+    (매개변수, ...) -> {코드블럭 ; }
+
+    //람다식
+    () > "Hello, Java!"; // 한 번 실행되고 끝남.
+    ```
+
+#### 함수형 인터페이스
+- 객체지향 언어인 Java에서 함수형 처리를 위해서 함수형 인터페이스가 필요
+- 인터페이스 내에 하나의 추상메서드만 갖도록 제한해 줌 !!
+- @FunctionalInterface 어노테이션을 사용 권장 !!
+
+#### 스트림 API 
+    > 모든 빌드업은... 이걸 위해서 준비되었다 ..!!!! 크크큭...
+- 함수형 인터페이스로 데이터를 추상화하고 처리하는 데 자주 사용되는 함수를 정의해 놓은 것 !!
+- 특징 !!
+    - 원본 데이터를 변경하지 않음 !!! ㅇ0ㅇ
+    - 일회성
+    - 내부 반복으로 작업 처리! 
+
+- 스트림API가 쉽지는 않지만, 코딩량을 현저하게 줄일 수 있음 !!!
+
+- [Java문법실습](./day04/spring04/src/main/java/com/bbit808/spring04/Spring04Application.java)
 
