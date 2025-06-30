@@ -415,5 +415,158 @@
   10. 오른쪽 하단 프로젝트 폴더 Open 버튼 클릭 !
 
   - Spring Boot Backboard project
+
     - Gradle plugin -Dependency 파악 ! 프로젝트 업데이트 !!
     - Spring Boot dashboard - 프로젝트 실행!
+
+  - Spring Boot 설정파일
+    - build.gradle = 그레이들에서 설정할 구성내용
+    - application.properties - Spring Boot 프로젝트 자체 설정파일
+    - setting.gradle, gradle-wrapper.properties ; 손 댈 일 없음 !!
+
+### 스프링부터 Backboard 프로젝트
+
+1. 기본 실행
+
+   1. resource/application.properties
+
+   ```config
+   server.port = 9097  # 포트 변경!!
+   spring.output.ansi.enabled=always  # 로그 색상 설정
+
+   logging.level.root=info   # 로그 출력 레벨 설정
+   logging.file.name=C:/temp/backboard.log   # 로그 파일 위치
+
+   ```
+
+   2. build.gradle
+
+   ```gradle
+   dependencies {
+       // ... 생략 !
+
+       // DB연동용 의존성
+       runtimeOnly 'com.h2database: h2' // 개발 시에만 사용하는 InmemoryDB H2 ; 데이터베이스가 쓰는 것에 따라 바뀐대!!(자동으로)
+       implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // 버전은 굳이 적을 필요는 없대~
+   }
+
+   ```
+
+   3. Controller 작업
+
+   - MainController 생성
+   - 새 파일로 생성 or Menu Java New file > class 둘 다 동일 !
+
+   4. /resources/templates/ 에 Mapping 메서드 리턴값과 동일한 html을 작성!
+
+2. DB 연동
+
+   1. H2 DB 의존성 추가
+   2. application.properties에 H2 관련 설정 추가
+
+      ```properties ## H2 DB 설정
+      spring.h2.console.enabled=true
+      # 접속 URL ; 뒤에 공백 안 넣게 조심 !!
+      spring.h2.console.path=/h2-console
+      # H2 DB 파일위치 : ~/ (user/Admin/ 에 생성) : ./ 현재 프로젝트 폴더에 생성
+      spring.datasource.url=jdbc:h2:./local
+      spring.datasource.driver-class-name=org.h2.Driver
+      spring.datasource.username=sa
+      spring.datasource.password=
+      ```
+
+3. http://localhost:9097/h2-console 접속 !!
+
+<img src = "./image/sb0012.png" width="450">
+
+4. application.properties에 JPA 설정
+
+```properties
+## JPA 설정
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=update
+```
+
+-JPA 등의 ORM 작업 시 사용하는 기술 ; 하이버네이트
+
+- spring.jpa.hibernate.ddl.auto 종류 !
+
+  - create : SB 서버 시작 시 테이블을모두 삭제 후 다시 재생성(데이터 모두 휘발!!! ㅇ0ㅇ)
+  - create-drop : create와 동일 ! 서버가 종료되면 테이블 모두 삭제..
+  <!-- - create-only : 잘 안 씀 !! -->
+  - `update` : 엔티티 변경 부분만 적용. 원래 있던 데이터는 존재!
+  - `validation` : 엔티티와 테이블 간 차이점 검사만
+  - truncate : 데이터를 전부 날림 ㅇ0ㅇ !!
+  - none : 엔티티가 변경되어도 DB는 변경하지 않음!!
+
+5.  MVC 패턴에 맞춰 각 기능별로 패키지(폴더) 생성
+
+    - controller, entity, service...
+
+6.  @(Annotation) 정리
+
+    - Lombok
+
+      - @Getter : getter 매서드 자동 생성
+      - @Setter : setter 매서드 자동 생성
+
+    - JPA
+      - @Entity : 테이블화 할 객체 선언!
+      - @Id : 테이블 PK
+      - @GeneratedValue(strategy = GenerationType.AUTO)
+        - AUTO : MySQL Auto Increment
+        - IDENTITY : SQLServer Identity(1, 1)
+        - SEQUENCE : Oracle Sequence
+        - H2 DB를 오라클 타입으로 사용하고, 나중에 운영 DB를 오라클로 갈아타자~
+    - @Column : 컬럼의 속성을 변경 (ex : @Column(name="subject", length = 250))
+      - name : DB 상의 실제 컬럼명을 엔티티와 다르게 사용할 때
+      - length : 길이를 지정
+      - updatable : 최초 작성 이후 수정 여부. false는 수정 불가
+      - columnDefinition : "TEXT" MySQL, "CLOB" Oracle. H2는 사용 불가!
+    - SpringFramework
+      - @CreatedDate : 생성일
+      - @LastModifiedDate : 최종수정일에 대한 어노테이션 !
+
+7.  entity 작성
+
+    1. 테이블로 생성할 Board 클래스 생성
+    2. Lombok @Getter/@Setter를 사용하면 Get~, Set~ 메서드를 작성할 필요 없음!!
+
+8.  repository 패키지(폴더) 작성 !
+
+    1. DB상의 데이터를 조회, 저장, 수정, 삭제할 수 있게 도와주는 인터페이스
+    2. SELECT -> findAll(), INSERT -> save() 메서드를 기본 제공
+    3. BoardRepository 인터페이스 생성
+
+9.  단위테스트
+
+    1. build.gradle에 JUnit 의존성 추가
+
+    ```gradle
+    // JUnit 단위테스트
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    ```
+
+    2. INSERT 단위테스트
+    3. test/ .../backboard/BackboardApplicationTests.java 에 단위테스트 메서드 작성 !!
+
+    <img src ="./image/sb0013.png" width ="600">
+
+    4. SELECT, SELECT ... WHERE 단위테스트
+    5. 디버그콘솔에서 쿼리 로그로 확인. application.properties 설정 추가
+
+       ```properties
+       # 테스트 시 쿼리 확인
+       ```
+
+    spring.jpa.properties.hibernate.format_sql=true
+    spring.jpa.properties.hibernate.show_sql=true
+
+    ```
+
+    6. SELECT ... WHERE LIKE, DELETE FROM 단위테스트
+    ```
+
+## 7일차 (07-01)
+
+### 스프링부트 Backboard 프로젝트(계속!!)

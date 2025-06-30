@@ -24,13 +24,23 @@ repositories {
 }
 
 dependencies {
+	// 기본 Dependency(의존성)
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	// 테스트용 의존성
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// DB연동용 의존성
+	runtimeOnly 'com.h2database:h2' // 개발 시에만 사용하는 InmemoryDB H2 ; 데이터베이스가 쓰는 것에 따라 바뀐대!!(자동으로)
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // 버전은 굳이 적을 필요는 없대~
+
+	// JUnit 단위테스트
+	testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
 tasks.named('test') {
