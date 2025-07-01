@@ -635,3 +635,4 @@ spring.jpa.hibernate.ddl-auto=update
      implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
    ```
    2. 레이아웃 템플릿 페이지 작성
+   3. board_list.html에 적용
