@@ -636,3 +636,7 @@ spring.jpa.hibernate.ddl-auto=update
    ```
    2. 레이아웃 템플릿 페이지 작성
    3. board_list.html에 적용
+
+        https://github.com/user-attachments/assets/38b423d6-9de1-465b-a88c-aec8a061a078
+
+
