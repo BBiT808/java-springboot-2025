@@ -24,6 +24,7 @@ repositories {
 }
 
 dependencies {
+	// 의존성 추가할 때 마지막 : 버전은 최대한 생략할 것 !! (안 쓰는 게 정신 건강에 좋대 ^_^)
 	// 기본 의존성
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -33,6 +34,10 @@ dependencies {
 
 	// 추가 의존성
 	implementation 'org.springframework.boot:spring-boot-starter-validation' // 유효성 검사
+
+	// 스프링부트 시큐리티 의존성 !!
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
 	// Thymeleaf 레이아웃 의존성 / 250701 신규추가 - JM (기록 남겨놓는 게 좋다함)
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'

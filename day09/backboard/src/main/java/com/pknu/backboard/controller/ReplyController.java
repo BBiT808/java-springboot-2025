@@ -18,7 +18,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-
 @Controller
 @Log4j2
 @RequiredArgsConstructor
@@ -33,15 +32,15 @@ public class ReplyController {
 
     // form 태그에서 post 액션이 발생하니까 PostMapping을 사용
     @PostMapping("/create/{bno}")
-    public String setReply(Model model, @PathVariable("bno") Long bno, 
-                            @Valid ReplyForm replyForm, BindingResult bindingResult) {
+    public String setReply(Model model, @PathVariable("bno") Long bno,
+            @Valid ReplyForm replyForm, BindingResult bindingResult) {
         Board board = this.boardService.getBoardOne(bno);
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) { // 입력 검증이 실패하면 ..!!
             model.addAttribute("board", board);
-            return "board_detail";
+            return "board/board_detail";
         }
         this.replyService.setReply(board, replyForm.getContent());
         return String.format("redirect:/board/detail/%d", bno);
     }
-    
+
 }

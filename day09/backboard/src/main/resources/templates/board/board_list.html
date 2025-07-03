@@ -11,10 +11,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each = "board, index : ${boardPaging}">
-                            <td th:text="${index.count}"></td>
+                        <tr th:each = "board, loop : ${boardPaging}">
+                            <!-- <td th:text="${index.count}"></td> -->
+                            <td th:text="${boardPaging.getTotalElements - (boardPaging.number * boardPaging.size) - loop.index}"></td>
                             <td>
                                 <a th:href="@{|/board/detail/${board.bno}|}" th:text="${board.title}"></a>
+                                <span th:if="${#lists.size(board.replyList)>0 } "
+                                    th:text="${#lists.size(board.replyList)}" 
+                                    class = "badge text-bg-primary"></span>
                             </td>
                             <td th:text = "${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         </tr>
@@ -30,9 +34,13 @@
                 <!-- 페이징 컨트롤 영역 -->
                 <div th:if="${!boardPaging.isEmpty()}">
                     <ul class="pagination justify-content-center">
+                        <!-- 맨 첫페이지 -->
+                        <li class="page-item" th:classappend="${!boardPaging.hasPrevious} ? 'disabled'">
+                            <a class="page-link" th:href="@{?page=0}"><span>&laquo;</span></a>
+                        </li>
                         <!-- 이전페이지 -->
                         <li class="page-item" th:classappend="${!boardPaging.hasPrevious} ? 'disabled'">
-                            <a class="page-link" th:href="@{|?page=${boardPaging.number - 1}|}"><span>&lt;</span></a>
+                            <a class="page-link" th:href="@{|?page=${boardPaging.number-1}|}"><span>&lt;</span></a>
                         </li>
                         <!-- 실제 페이징번호 컨트롤 시작 -->
                         <li th:each="currPage: ${#numbers.sequence(0, boardPaging.totalPages-1)}"
@@ -44,6 +52,10 @@
                         <!-- 다음페이지 -->
                         <li class="page-item" th:classappend="${!boardPaging.hasNext} ? 'disabled'">
                             <a class="page-link" th:href="@{|?page=${boardPaging.number + 1}|}"><span>&gt;</span></a>
+                        </li>
+                        <!-- 마지막페이지 -->
+                        <li class="page-item" th:classappend="${!boardPaging.hasNext} ? 'disabled'">
+                            <a class="page-link" th:href="@{|?page=${boardPaging.totalPages-1}|}"><span>&raquo;</span></a>
                         </li>
                     </ul>
                 </div>

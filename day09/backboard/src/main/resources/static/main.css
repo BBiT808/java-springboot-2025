@@ -10,3 +10,7 @@ textarea {
 input[type=submit] {
     /* background-color: #4CAF50; */
 }
+
+.form-signup {
+    min-width: 330px;
+}
