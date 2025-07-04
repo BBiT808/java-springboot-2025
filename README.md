@@ -838,6 +838,10 @@ spring.jpa.hibernate.ddl-auto=update
       4. board_create.html th:action을 삭제, 등록과 수정을 동시에 처리할 수 있는 hidden태그를 추가
       5. BoardController에 수정 PostMapping 메서드 추가
 
+
+https://github.com/user-attachments/assets/cf744b45-4573-49c8-a815-ce2ae3c047eb
+
+
 ## 11일차
 
 ### 스프링부트 Backboard 프로젝트 (계속)
