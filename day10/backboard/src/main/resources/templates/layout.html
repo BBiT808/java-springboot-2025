@@ -37,10 +37,16 @@
                             <a class="nav-link active" aria-current="page" href="#">Contact</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Signin</a>
+                            <a class="nav-link active" aria-current="page" sec:authorizs="isAnonymous()" th:href="@{/member/signin}">Signin</a>
+                            <!-- <a class="nav-link active" aria-current="page" sec:authorizs="isAuthenticated()" th:href="@{/member/signout}">Signout</a> -->
+                             <form th:action="@{/member/signout}" method="post" sec:authorize="isAuthenticated()">
+                                <button type="submit" class="btn btn-link nav-link">Signout</button>
+                             </form>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" th:href="@{/member/signup}">Signup</a>
+                            <a class="nav-link active" aria-current="page"
+                            sec:authorize="!isAnonymous()"
+                            th:href="@{/member/signup}">Signup</a>
                         </li>
                     </ul>
                 </div>

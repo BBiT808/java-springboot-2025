@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.pknu.backboard.entity.Board;
+import com.pknu.backboard.entity.Member;
 import com.pknu.backboard.repository.BoardRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -49,12 +50,30 @@ public class BoardService {
     }
 
     // INSERT INTO board VALUES ...
-    public void setBoardOne(String title, String content) {
+    public void setBoardOne(String title, String content, Member member) {
         Board board = new Board();
         board.setTitle(title); // 파라미터로 넘어온 변수를 파라미터로 입력
         board.setContent(content); // 내용(content) 부분도 동일
         board.setCreateDate(LocalDateTime.now());
+
+        // 작성자 추가
+        board.setWriter(member);
+
         this.boardRepository.save(board); // repository로... 넘기기?
+    }
+
+    // UPDATE board SET ...
+    public void putBoardOne(Board board, String title, String content) {
+        board.setTitle(title); // 파라미터로 넘어온 변수를 파라미터로 입력
+        board.setContent(content); // 내용(content) 부분도 동일
+        board.setCreateDate(LocalDateTime.now()); // 수정일시도 현재시간으로 변경
+
+        this.boardRepository.save(board);
+    }
+
+    // DELETE FROM board
+    public void deleteBoardOne(Board board) {
+        this.boardRepository.delete(board);
     }
 
 }

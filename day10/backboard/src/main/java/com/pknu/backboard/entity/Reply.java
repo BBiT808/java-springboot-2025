@@ -20,13 +20,17 @@ import lombok.Setter;
 public class Reply {
     @Id // PK -> SpringBoot에서 만드는 Entity는 PK가 없으면 입력이 안 됨
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long rno;   // Reply 테이블의 PK, reply-na
+    private Long rno; // Reply 테이블의 PK, reply-na
 
     @Column(length = 1000)
     private String content; // 댓글은 제목컬럼이 필요없음
 
+    // 작성자 추가
+    @ManyToOne
+    private Member writer; // 댓글 작성자 정보
+
     @CreatedDate
-    @Column(updatable = false)  // 한번 작성 후 수정하지 않음
+    @Column(updatable = false) // 한번 작성 후 수정하지 않음
     private LocalDateTime createDate; // 게시글 작성일
 
     @LastModifiedDate

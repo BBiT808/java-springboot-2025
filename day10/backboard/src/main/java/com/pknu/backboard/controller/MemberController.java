@@ -23,6 +23,11 @@ public class MemberController {
     @Autowired
     private final MemberService memberService;
 
+    @GetMapping("/signin")
+    public String getSignIn() {
+        return "member/signin"; // signin.html 생성
+    }
+
     @GetMapping("/signup")
     public String getSignUp(MemberForm memberForm) {
         return "member/signup"; // signup.html 생성

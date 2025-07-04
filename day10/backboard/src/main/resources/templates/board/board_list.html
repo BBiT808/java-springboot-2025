@@ -7,6 +7,7 @@
                         <tr>
                             <th>순번</th>
                             <th>제목</th>
+                            <th>작성자</th>
                             <th>작성일자</th>
                         </tr>
                     </thead>
@@ -16,11 +17,16 @@
                             <td th:text="${boardPaging.getTotalElements - (boardPaging.number * boardPaging.size) - loop.index}"></td>
                             <td>
                                 <a th:href="@{|/board/detail/${board.bno}|}" th:text="${board.title}"></a>
+                                <!-- 댓글 개수 표시 !~! -->
                                 <span th:if="${#lists.size(board.replyList)>0 } "
                                     th:text="${#lists.size(board.replyList)}" 
                                     class = "badge text-bg-primary"></span>
                             </td>
-                            <td th:text = "${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td>
+                                <span th:if ="${board.writer != null}" th:text="${board.writer.username}"></span>
+                            </td>
+
+                            <td th:text = "${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm')}"></td>
                         </tr>
                     </tbody>
                 </table>

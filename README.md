@@ -790,9 +790,58 @@ spring.jpa.hibernate.ddl-auto=update
 
    1. 회원 로그인
 
-      1. MemberRole
-      2. MemberSecurityService
-      3. signin.html
-      4. 회원 로그인 기능
+      1. MemberRole enum : 스프링 시큐리티에서 역할분배(Admin, User)
+      2. MemberSecurityService : 스프링 시큐리티를 사용하는 로그인 서비스
+         - UserDetailsService 스프링 시큐리티 인터페이스를 구현
+      3. SecurityConfig 계정관련 메서드 추가
+      4. signin.html
+      5. 회원 로그인 기능
 
-   2. 회원 로그아웃 기능
+   2. 로그인 오류 처리
+
+      1. SecurityConfig 클래스에 BCryptPasswordEncoder 생성메서드 추가
+      2. MemberService의 setMember() 패스워드 인코딩 시 사용변경
+
+   3. 회원 로그아웃 기능
+      1. layout.html 네비게이션 메뉴 signin, signout 태그 분리
+      2. SecurityConfig 클래스 filterChain() 메서드 내 logout 관련 설정
+
+3. 개발용 H2 데이터베이스 -> Oracle로 이전
+
+4.
+
+5. DB 테이블 변경 작업
+
+   1. Board, Reply에 글쓴이 컬럼 추가
+
+      1. 각 Entity에 Member 클래스 변수 추가
+      2. BoardService setBoardOne()에 사용자 Member 파라미터 추가
+      3. MemberService getMember() 메서드 추가
+      4. BoardController setCreate() 메서드 내 서비스 setBoardOne() 메서드에 Principle 추가 수정
+      5. 계정세션이 없는 상태에서 작성을 하면 예외 발생 - 계정 관련 어노테이션 `@PreAuthorize` 추가
+      6. SecurityConfig에 계정세션 접근권한 어노테이션 `@EnableMethodSecurity` 추가
+      7. board_list.html 에 작성자 표시 태그 추가
+      8. board_detail.html 에 작성자 표시 태그 추가
+
+   2. Reply에 글쓴이 컬럼 추가
+
+      1. Reply에 Member 클래스 변수 추가
+      2. ReplyService에 사용자 Member 파라미터 추가
+      3. ReplyController setReply() Principle 추가
+      4. ReplayController @PreAuthorize 추가
+      5. board_detail.html 댓글부분에 계정 관련 태그, 작성자 표시 태그 추가
+
+   3. Board 게시글 수정, 삭제 추가
+      1. board_detail.html 수정, 삭제 버튼 추가
+      2. BoardService에 게시글 수정메서드 putBoardOne(), 삭제메서드 deleteBoardOne() 작성
+      3. BoardController에 게시글 수정 GetMapping 매서드 추가
+      4. board_create.html th:action을 삭제, 등록과 수정을 동시에 처리할 수 있는 hidden태그를 추가
+      5. BoardController에 수정 PostMapping 메서드 추가
+
+## 11일차
+
+### 스프링부트 Backboard 프로젝트 (계속)
+
+5. DB 테이블 연동 작업(계속)
+   1. Board 게시글 삭제 추가
+      1. ...

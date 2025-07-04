@@ -13,10 +13,11 @@ import lombok.*;
 @Getter
 @Setter // Lombok으로 Getter/Setter 자동화
 @Entity // JPA 테이블 매핑 선언
-@AllArgsConstructor     // 이거 있으면 this.컬럼명 이런거 안 써줘도됨
+@AllArgsConstructor // 이거 있으면 this.컬럼명 이런거 안 써줘도됨
 @NoArgsConstructor
+@Builder // 객체 생성을 간단하게, 체인 메서드 사용 가능 !!
 public class Board {
-    @Id     // PK
+    @Id // PK
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long bno; // board 테이블의 PK, bno
 
@@ -27,8 +28,12 @@ public class Board {
     @Column(length = 8000)
     private String content; // 게시글 내용
 
+    // 작성자 추가
+    @ManyToOne // 사용자가 여러개의 글을 작성 가능
+    private Member writer; // 작성자 정보
+
     @CreatedDate
-    @Column(updatable = false)  // 한번 작성 후 수정하지 않음
+    @Column(updatable = false) // 한번 작성 후 수정하지 않음
     private LocalDateTime createDate; // 게시글 작성일
 
     @LastModifiedDate
