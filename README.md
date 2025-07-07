@@ -394,35 +394,34 @@
   1. 명령 팔레트로 시작!!(Ctrl + Shift + P) : Spring Initializr : Create a Gradle(Maven 보다 속도 쫌~ 더 빠름!) Project
      ; Spring Boot 버전이 높다고 다 좋은 것은 아님 !!
 
-  2. Spring Boot version : 3.5.3
-  3. project language : Java
-  4. Group Id : com.pknu
-  5. Artifact Id : backboard
-  6. package type : Jar
-  7. Java version : 17
-  8. Dependency
+     1. Spring Boot version : 3.5.3
+     2. project language : Java
+     3. Group Id : com.pknu
+     4. Artifact Id : backboard
+     5. package type : Jar
+     6. Java version : 17
+     7. Dependency
 
      - Spring boot DevTools : 개발시 필요한 명령어, 기능 포함
      - Lombok(Developer Tools) : 어노테이션 등 편리하게 해주는 플러그인 라이브러리 !
      - Spring Web : 프론트앤드(html) 개발을 할 때 필요한 의존성
+     - Thymeleaf(Template Engines) : html + Spring Boot 태그 매핑을 해주는 기능!
+     - H2 Database(later) : 개발동안 필요한 인메모리 DB
+     - Oracle Driver(later) : 실제 운영할 DB ; 오라클 운영할 때 Docker 켜주는 것 잊지 말기 !
+     - Spring Data JPA(later) : DB 생성 + ORM
 
-  - Thymeleaf(Template Engines) : html + Spring Boot 태그 매핑을 해주는 기능!
-  - H2 Database(later) : 개발동안 필요한 인메모리 DB
-  - Oracle Driver(later) : 실제 운영할 DB ; 오라클 운영할 때 Docker 켜주는 것 잊지 말기 !
-  - Data JPA(later) : DB 생성 + ORM
+     8. 저장위치 지정, Generage into this folder 선택
+     9. 오른쪽 하단 프로젝트 폴더 Open 버튼 클릭 !
 
-  9. 저장위치 지정, Generage into this folder 선택
-  10. 오른쪽 하단 프로젝트 폴더 Open 버튼 클릭 !
+  2. Spring Boot Backboard project
 
-  - Spring Boot Backboard project
+     - Gradle plugin -Dependency 파악 ! 프로젝트 업데이트 !!
+     - Spring Boot dashboard - 프로젝트 실행!
 
-    - Gradle plugin -Dependency 파악 ! 프로젝트 업데이트 !!
-    - Spring Boot dashboard - 프로젝트 실행!
-
-  - Spring Boot 설정파일
-    - build.gradle = 그레이들에서 설정할 구성내용
-    - application.properties - Spring Boot 프로젝트 자체 설정파일
-    - setting.gradle, gradle-wrapper.properties ; 손 댈 일 없음 !!
+  3. Spring Boot 설정파일
+     - build.gradle = 그레이들에서 설정할 구성내용
+     - application.properties - Spring Boot 프로젝트 자체 설정파일
+     - setting.gradle, gradle-wrapper.properties ; 손 댈 일 없음 !!
 
 ### 스프링부터 Backboard 프로젝트
 
@@ -454,8 +453,8 @@
 
    3. Controller 작업
 
-   - MainController 생성
-   - 새 파일로 생성 or Menu Java New file > class 둘 다 동일 !
+      - MainController 생성
+      - 새 파일로 생성 or Menu Java New file > class 둘 다 동일 !
 
    4. /resources/templates/ 에 Mapping 메서드 리턴값과 동일한 html을 작성!
 
@@ -475,137 +474,131 @@
       spring.datasource.password=
       ```
 
-3. http://localhost:9097/h2-console 접속 !!
+   3. http://localhost:9097/h2-console 접속 !!
 
 <img src = "./image/sb0012.png" width="450">
 
-4. application.properties에 JPA 설정
+    4. application.properties에 JPA 설정
 
-```properties
-## JPA 설정
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
-spring.jpa.hibernate.ddl-auto=update
-```
+      ```properties
+      ## JPA 설정
+      spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
+      spring.jpa.hibernate.ddl-auto=update
+      ```
 
--JPA 등의 ORM 작업 시 사용하는 기술 ; 하이버네이트
+      -JPA 등의 ORM 작업 시 사용하는 기술 ; 하이버네이트
+        - spring.jpa.hibernate.ddl.auto 종류 !
+          - create : SB 서버 시작 시 테이블을모두 삭제 후 다시 재생성(데이터 모두 휘발!!! ㅇ0ㅇ)
+          - create-drop : create와 동일 ! 서버가 종료되면 테이블 모두 삭제..
+          <!-- - create-only : 잘 안 씀 !! -->
+          - `update` : 엔티티 변경 부분만 적용. 원래 있던 데이터는 존재!
+          - `validation` : 엔티티와 테이블 간 차이점 검사만
+          - truncate : 데이터를 전부 날림 ㅇ0ㅇ !!
+          - none : 엔티티가 변경되어도 DB는 변경하지 않음!!
 
-- spring.jpa.hibernate.ddl.auto 종류 !
+    5. MVC 패턴에 맞춰 각 기능별로 패키지(폴더) 생성
+          - controller, entity, service, repository...
+          - templates 내 html
 
-  - create : SB 서버 시작 시 테이블을모두 삭제 후 다시 재생성(데이터 모두 휘발!!! ㅇ0ㅇ)
-  - create-drop : create와 동일 ! 서버가 종료되면 테이블 모두 삭제..
-  <!-- - create-only : 잘 안 씀 !! -->
-  - `update` : 엔티티 변경 부분만 적용. 원래 있던 데이터는 존재!
-  - `validation` : 엔티티와 테이블 간 차이점 검사만
-  - truncate : 데이터를 전부 날림 ㅇ0ㅇ !!
-  - none : 엔티티가 변경되어도 DB는 변경하지 않음!!
+    6. @(Annotation) 정리
+      - Lombok
+          - `@Getter` : getter 매서드 자동 생성
+          - `@Setter` : setter 매서드 자동 생성
 
-5.  MVC 패턴에 맞춰 각 기능별로 패키지(폴더) 생성
+      - JPA
+          - `@Entity` : 테이블화 할 객체 선언!
+          - @Id : 테이블 PK
+          - @GeneratedValue(strategy = GenerationType.AUTO)
+            - AUTO : JPA가 자동 선별 !! **사용 지양!!!**
+            - `IDENTITY` : SQLServer Identity(1, 1), MySQL Auto-Increment
+            - `SEQUENCE` : Oracle Sequence
+            - H2 DB를 오라클 타입으로 사용하고, 나중에 운영 DB를 오라클로 갈아타자~
 
-    - controller, entity, service...
+      - @Column : 컬럼의 속성을 변경 (ex : @Column(name="subject", length = 250))
+            - name : DB 상의 실제 컬럼명을 엔티티와 다르게 사용할 때
+            - length : 길이를 지정
+            - updatable : 최초 작성 이후 수정 여부. false는 수정 불가
+            - columnDefinition : "TEXT" MySQL, "CLOB" Oracle. H2는 사용 불가!
+      - SpringFramework
+            - @CreatedDate : 생성일
+            - @LastModifiedDate : 최종수정일에 대한 어노테이션 !
 
-6.  @(Annotation) 정리
+    7. entity 패키지(폴더) 작성
+        1. 테이블로 생성할 Board 클래스 생성
+        2. Lombok @Getter/@Setter를 사용하면 Get~, Set~ 메서드를 작성할 필요 없음!!
 
-    - Lombok
+    8. repository 패키지(폴더) 작성 !
+        1. DB상의 데이터를 조회, 저장, 수정, 삭제할 수 있게 도와주는 인터페이스
+        2. SELECT -> findAll(), INSERT -> save() 메서드를 기본 제공
+        3. BoardRepository 인터페이스 생성
 
-      - @Getter : getter 매서드 자동 생성
-      - @Setter : setter 매서드 자동 생성
+3. 단위테스트
 
-    - JPA
-      - @Entity : 테이블화 할 객체 선언!
-      - @Id : 테이블 PK
-      - @GeneratedValue(strategy = GenerationType.AUTO)
-        - AUTO : JPA가 자동 선별 !! **사용 지양!!!**
-        - IDENTITY : SQLServer Identity(1, 1), MySQL Auto-Increment
-        - SEQUENCE : Oracle Sequence
-        - H2 DB를 오라클 타입으로 사용하고, 나중에 운영 DB를 오라클로 갈아타자~
-    - @Column : 컬럼의 속성을 변경 (ex : @Column(name="subject", length = 250))
-      - name : DB 상의 실제 컬럼명을 엔티티와 다르게 사용할 때
-      - length : 길이를 지정
-      - updatable : 최초 작성 이후 수정 여부. false는 수정 불가
-      - columnDefinition : "TEXT" MySQL, "CLOB" Oracle. H2는 사용 불가!
-    - SpringFramework
-      - @CreatedDate : 생성일
-      - @LastModifiedDate : 최종수정일에 대한 어노테이션 !
+   1. build.gradle에 JUnit 의존성 추가
 
-7.  entity 작성
+      ```gradle
+      // JUnit 단위테스트
+      testImplementation 'org.junit.jupiter:junit-jupiter'
+      ```
 
-    1. 테이블로 생성할 Board 클래스 생성
-    2. Lombok @Getter/@Setter를 사용하면 Get~, Set~ 메서드를 작성할 필요 없음!!
+   2. INSERT 단위테스트
+   3. test/ .../backboard/BackboardApplicationTests.java 에 단위테스트 메서드 작성 !!
 
-8.  repository 패키지(폴더) 작성 !
+   <img src ="./image/sb0013.png" width ="600">
 
-    1. DB상의 데이터를 조회, 저장, 수정, 삭제할 수 있게 도와주는 인터페이스
-    2. SELECT -> findAll(), INSERT -> save() 메서드를 기본 제공
-    3. BoardRepository 인터페이스 생성
+   4. SELECT, SELECT ... WHERE 단위테스트
+   5. 디버그콘솔에서 쿼리 로그로 확인. application.properties 설정 추가
 
-9.  단위테스트
+      ```properties
+      # 테스트 시 쿼리 확인
+      spring.jpa.properties.hibernate.format_sql=true
+      spring.jpa.properties.hibernate.show_sql=true
 
-    1. build.gradle에 JUnit 의존성 추가
+      ```
 
-    ```gradle
-    // JUnit 단위테스트
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    ```
+   6. SELECT ... WHERE LIKE, DELETE FROM 단위테스트
 
-    2. INSERT 단위테스트
-    3. test/ .../backboard/BackboardApplicationTests.java 에 단위테스트 메서드 작성 !!
-
-    <img src ="./image/sb0013.png" width ="600">
-
-    4. SELECT, SELECT ... WHERE 단위테스트
-    5. 디버그콘솔에서 쿼리 로그로 확인. application.properties 설정 추가
-
-       ```properties
-       # 테스트 시 쿼리 확인
-       ```
-
-    spring.jpa.properties.hibernate.format_sql=true
-    spring.jpa.properties.hibernate.show_sql=true
-
-    ```
-
-    6. SELECT ... WHERE LIKE, DELETE FROM 단위테스트
-    ```
+`````
 
 ## 7일차 (07-01)
 
 ### 스프링부트 Backboard 프로젝트(계속!!)
 
 1. 단위 테스트
+   - UPDATE 테스트
 
-   1. UPDATE 테스트
-
-2. 계발 계속
+2. DB 연동 계발 계속
 
    1. Entity 중 Board(게시글)의 댓글 Reply 클래스 생성
-   2. DB ERD에서 Board : Reply => 1:N(1대 다)의 관계를 가짐 !
-   3. @(Anotation) 추가
 
+   2. DB ERD에서 Board : Reply => 1:N(1대 다)의 관계를 가짐 !
+
+   3. @(Anotation) 추가
       - @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE) : 1대다 ERD 관계로 부모클래스(테이블)에 작성하는 부분
       - @ManyToOne : 다대1 ERD 관계로 자식클래스에 작성하는 부분
       - @Service : 서비스 모듈을 지칭(SpringFramework)
       - @RequireArgsContructor : 생성자를 만들어 줌. 파라미터가 존재하는 생성자를 자동으로 생성(Lombok)
-      - @
+      - @AllArgsConstructor : 클래스 멤버변수를 사용해서 생성자를 만들어주는 것(Lombok)
+      - @NoArgsContructor : 파라미터(클래스 멤버 변수) 없는 빈생성자를 자동으로 생성(Lombok)
 
    4. ReplyRepository 인터페이스 작성!
 
    5. Service 작성
       - 데이터 처리를 위해서 작성하는 클래스. MVC/패턴 처럼 모듈화로 복잡한 코드를 단순화, 역할 분리를 위해서
       - Controller는 게이트(문) 사용자가 접속해서 요청하는 부분
-   6. 엔티티를 DTO 객체 변환
 
+   6. 엔티티를 DTO 객체 변환
       - Entity : DB와 연결되어 있는 클래스. 이 객체를 그대로 사용해서 FE로 보내는 방식이 좋지 않음
       - Dto 사용은 옵션으로 할 수도 있음
 
    7. BoardController 작성
-   8. /templates/board_list.html 작성
 
+   8. /templates/board_list.html 작성
       - thymeleaf 문법 적용
 
       <img src="./image/sb0014.png" width = "600">
 
    9. 상세 페이지 작업
-
       - Service, Controller 메서드 작업
 
    10. 상세 페이지에 댓글 저장 기능 추가
@@ -617,10 +610,11 @@ spring.jpa.hibernate.ddl-auto=update
    - ${} : 변수표현식. 변수에 들어있는 값을 화면에 표시하는 기능. Model에 들어있는 데이터를 화면에 표시
    - @{} : URL 링크 표현식. 정적인 링크 또는 라우팅되는 경로를 생성하는 기능
    - #{} : 메세지 표현식
+   - *{} : 선택변수 표현식. th:object로 선택된 객체 내의 값에 접근
+   - ~{} : Fragment 포함 표현식. 템플릿 Fragement를 사용
    - thymeleaf 속성에만 사용 가능 : th:text, th:href ..
 
 4. 웹 페이지 디자인
-
    1. resources/static : css, js, 정적html 파일들이 위치
    2. static/main.css : 전체에서 사용할 css 파일
    3. Bootstrap 적용
@@ -629,18 +623,16 @@ spring.jpa.hibernate.ddl-auto=update
    4. board_detail.html : 부트스트랩 적용
 
 5. 전체 HTML에 디자인 적용
-
    1. build.gradle에 thymeleaf-layout 의존성 추가
-
-   ```gradle
+    ```gradle
    // Thymeleaf layout 의존성 추가. 250701. 신규추가
      implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-   ```
+    ````
 
-   2. 레이아웃 템플릿 페이지 작성
-   3. board_list.html에 적용
+    2.  레이아웃 템플릿 페이지 작성
+    3.  board_list.html에 적용
 
-      https://github.com/user-attachments/assets/38b423d6-9de1-465b-a88c-aec8a061a078
+    https://github.com/user-attachments/assets/38b423d6-9de1-465b-a88c-aec8a061a078
 
 ## 8일차
 
@@ -663,18 +655,15 @@ spring.jpa.hibernate.ddl-auto=update
    3. 입력검증 클래스, BoardForm.java 생성
    4. BoardForm 객체를 컨트롤러에 전달
    5. board_create.html에 입력검증 태그, 속성 등 추가
-
       - GetMapping, PostMapping 메서드에 BoardForm 파라미터를 추가!
 
    6. board_detail.html에 댓글 입력 검증 태그 추가
-
       - ReplyController 의 PostMapping 메서드에 ReplyForm을 파라미터로 추가
       - BoardController의 GetMapping 메서드에 ReplyForm을 @Valid 파라미터로 추가
 
    7. 검증영역 태그를 valid_error.html 템플릿 생성
 
 2. Bootstrap 템플릿 사이트
-
    - https://startbootstrap.com/
    - https://bootstrapmade.com/bootstrap-5-templates/
    - https://mdbootstrap.com/freebies/
@@ -682,11 +671,9 @@ spring.jpa.hibernate.ddl-auto=update
    - https://www.youtube.com/@codehal (No Bootstrap)
 
 3. Bootstrap Navigation 구현
-
    - templates/layout.html 네비게이션 태그 작성
 
 4. Paging : 대량 데이터 로드시 속도 개선
-
    - Dummy Data 생성 : Unit 테스트로 대략 200건 입력
    - Page, Pageable 인터페이스
 
@@ -709,25 +696,20 @@ spring.jpa.hibernate.ddl-auto=update
 ### 스프링부트 Backboard 프로젝트(계속)
 
 1.  게시판 작업
-
     1. Paging 구현 계속
-
        - 페이지수가 10개를 안 넘도록 처리 !
        - 이전페이지, 다음페이지 사용여부 변경
        - 맨 첫페이지, 마지막 페이지 버튼 추가!
 
     2. 게시글 최신 글부터 나오도록 정렬(sorting)
-
-       1. BoardService getBoardList() 메서드에 정렬로직 추가\
+       1. BoardService getBoardList() 메서드에 정렬로직 추가
 
     3. 게시글 개수만큼 번호가 나오도록 수정
-
        1. 현재는 각 페이지마다 1~10까지 반복
        2. 게시물 번호 = 전체 개시물 개수 - (현재 페이지 번호 \* 10[페이지당 게시글 수]) - 페이지당 인덱스
        3. board_list.html의 `<td th:text="${index.count}"></td>`를 수정
 
     4. Bootstrap 배지로 각 게시글마다 댓글 개수를 표시 !!
-
        - MyBatis로 작업된 Spring Boot : 쿼리 변경, 도메인 변경, html까지 세군데 수정! (복 잡 해)
        - JPA로 작업된 Spring Boot : html만 수정하면 끝!!
        - board_list.html의 제목 태그에 추가!
@@ -735,7 +717,6 @@ spring.jpa.hibernate.ddl-auto=update
       <img src="./image/sb0016.png" width="600" height="150">
 
 2.  Spring Boot Security : 회원가입, 로그인 등을 손쉽게 개발하도록 도와주는 의존성 라이브러리
-
     1. 시큐리티 설치
 
     ```gradle
@@ -748,7 +729,6 @@ spring.jpa.hibernate.ddl-auto=update
        - 기본사용자 : user
        - 패스워드 : Spring Boot 로그에 표시(ex: 924ee007-6ed9-4387-907f-dff5063381c1)
     3. 스프링 시큐리티 설정
-
        1. /security/SecurityConfig 클래스 생성
 
     4. 웹 보안용어
@@ -756,12 +736,11 @@ spring.jpa.hibernate.ddl-auto=update
          - 기본적으로 서로 다른 오리진(웹서버)인 경우 리소스를 서로 사용할 수 없음 (사용하면 해킹!!)
        - CSRF : Cross-Site Request Forgery
          - 명시적인 동의 없이 사용자를 대신해서 웹 앱이 악의적인 행동을 취하는 공격
-    5. 스프링 시큐리티 설정(계속)
 
+    5. 스프링 시큐리티 설정(계속)
        1. SecurityConfig 클래스 내 filterChain 매서드에 CSRF 등 관련 설정 추가
 
     6. 회원 엔티티 ; 회원가입 구현
-
        1. Member 엔티티 클래스 생성
        2. MemberRepository 인터페이스 작성
        3. MemberService 클래스 작성
@@ -770,11 +749,9 @@ spring.jpa.hibernate.ddl-auto=update
        6. templates/signup.html 작성
 
     7. MainController에 URL / 관련 메서드 작업
-
        - @GetMapping("/")
 
     8. 중복회원 방지 처리
-
        1. MemberRepository 커스텀 메서드 추가
        2. MemberService 중복여부 체크 메서드 추가
        3. MemberController, setSignUp 메서드 수정
@@ -787,9 +764,7 @@ spring.jpa.hibernate.ddl-auto=update
 ### 스프링부트 Backboard 프로젝트(계속 !)
 
 2. Spring Boot Security (계속)
-
    1. 회원 로그인
-
       1. MemberRole enum : 스프링 시큐리티에서 역할분배(Admin, User)
       2. MemberSecurityService : 스프링 시큐리티를 사용하는 로그인 서비스
          - UserDetailsService 스프링 시큐리티 인터페이스를 구현
@@ -798,7 +773,6 @@ spring.jpa.hibernate.ddl-auto=update
       5. 회원 로그인 기능
 
    2. 로그인 오류 처리
-
       1. SecurityConfig 클래스에 BCryptPasswordEncoder 생성메서드 추가
       2. MemberService의 setMember() 패스워드 인코딩 시 사용변경
 
@@ -807,13 +781,49 @@ spring.jpa.hibernate.ddl-auto=update
       2. SecurityConfig 클래스 filterChain() 메서드 내 logout 관련 설정
 
 3. 개발용 H2 데이터베이스 -> Oracle로 이전
+    1. build.gradel에 의존성 추가!
 
-4.
+    ```gradle
+    runtimeOnly 'com.oracle.database.jdbc:ojdbc11'    // 운영용 Oracle
+    ```
+    2. application.properties 에 Oracle 연동관련 설정 추가
 
-5. DB 테이블 변경 작업
+    ```properties
+    ## Oracle 설정
+        spring.datasource.url=jdbc:oracle:thin:@localhost:1521:XE
+        spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+        spring.datasource.username=madang
+        spring.datasource.password=madang
+
+        ## JPA DB 설정
+        # H2용
+        # spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
+        spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.OracleDialect
+
+    ```
+
+4. 도커에 Oracle 21c XE 설치
+    - 11g 사용중 1521 포트 사용중인 상태에서 도커로 21c 설치
+    ```shell
+        > docker pull gvenzl/oracle-xe:21
+        ...
+        > docker run -d --name oracle-21-xe -p 11521:1521 -p 8989:8989 -e ORACLE_PASSWORD=oracle gvenzl/oracle-xe:21
+    ```
+    - Oracle 21 도커 터미널 접근. DB 생성
+     ```shell
+        > docker exec -it oracle-21-xe bash
+        bash-4.4$ sqlplus / as sysdba
+        SQL> create user backboard identified by 12345;
+        User created.
+        SQL> grant connect, resource to backboard;
+        Grant succeeded.
+        SQL> alter user backboard QUOTA UNLIMITED ON USERS;
+        User altered.
+        ```
+
+5. DB 테이블 변경(연동) 작업
 
    1. Board, Reply에 글쓴이 컬럼 추가
-
       1. 각 Entity에 Member 클래스 변수 추가
       2. BoardService setBoardOne()에 사용자 Member 파라미터 추가
       3. MemberService getMember() 메서드 추가
@@ -824,7 +834,6 @@ spring.jpa.hibernate.ddl-auto=update
       8. board_detail.html 에 작성자 표시 태그 추가
 
    2. Reply에 글쓴이 컬럼 추가
-
       1. Reply에 Member 클래스 변수 추가
       2. ReplyService에 사용자 Member 파라미터 추가
       3. ReplyController setReply() Principle 추가
@@ -838,14 +847,86 @@ spring.jpa.hibernate.ddl-auto=update
       4. board_create.html th:action을 삭제, 등록과 수정을 동시에 처리할 수 있는 hidden태그를 추가
       5. BoardController에 수정 PostMapping 메서드 추가
 
-
 https://github.com/user-attachments/assets/cf744b45-4573-49c8-a815-ce2ae3c047eb
-
 
 ## 11일차
 
 ### 스프링부트 Backboard 프로젝트 (계속)
 
-5. DB 테이블 연동 작업(계속)
+1. VS Code 재설치 시 삭제해야할 폴더
+
+   - VS Code 제거
+   - C:/Users/계정/.vscode : (플러그인 등 구성)
+   - C:/Users/계정/AppData/Roaming/Code : 전체설정, 백업, 캐시 등 가장 큰 폴더
+   - VS Code 재설치
+
+2. DB 테이블 연동 작업(계속)
    1. Board 게시글 삭제 추가
-      1. ...
+      1. board_html.html 삭제 버튼 추가
+      2. BoardRepository에 삭제처리 로직 추가 XXX
+      3. BoardService 에 삭제처리 로직 추가
+      4. BoardController에 삭제처리 GetMapping 추가
+
+3. 댓글에 대한 수정, 삭제
+      - 게시판과 동일하게 작성하면 됨 !!
+
+4. 좋아요 기능 추가!
+    1. Board Entity에 ` Set<Member> like` 속성 추가 !
+    2. board_detail.html 좋아요 버튼 추가
+    3. BoardService like 관련 메서드 추가
+    4. BoardController에서 /board/like/{bno} GetMapping 추가
+    5. Reply Entity에 `Set<Member> like` 속성 추가
+    6. board_detail.html 댓글부분에 좋아요 버튼 추가
+    7. ReplyService
+    7. ReplyService like 관련 메서드 추가
+    8. ReplyController 에서 /reply/like{rno} GetMapping 추가
+
+ 5. 커스텀 에러페이지
+    1. application.properties에서 Whitelabel Error 설정 해제
+    2. templates/error/500.html 생성
+    3. 탬플릿 사이트
+      -  https://freefrontend.com/html-404-templates/
+      -  https://freefrontend.com/html-500-templates/
+
+ 6. 웹 html 에디터 적용
+    1. HTML 에디터 종류
+        - https://ckeditor.com/ckeditor-5/ : 전세계에서 가장 유명한 유무료 웹에디터
+        - https://alex-d.github.io/Trumbowyg/ : JQuery가 필요한 간단한 무료 웹에디터
+        - https://summernote.org/ : 정말 간단한 웹에디터
+        - https://simplemde.com/ : 마크다운만 사용하는 웹에디터
+
+    1'. CKEditor 5 적용
+        1. layout.html에 CKEditor 관련 CSS, 스크립트 CDN 적용
+        2. board_create.html에 content 입력 양식에 editor id 추가  ; 필요 없음 !!!!
+        3. 자체 script 영역에 CKEditor 로드 스크립트 로직 추가, 아이디 값 변경 !!
+
+          ...  라이센스가 필요하므로 제외 !!!!!
+
+    2. Trumbowyg 적용 !!
+        1. jQuery CDN 적용
+        2. layout.html에 trumbowyg 관련 css, js 링크 추가
+        3. board_create.html에 content textarea와 관련된 스크립트 작성
+        4. 추가 플러그인 js 링크 추가
+
+        <img src="./image/sb0017.png" width="600">
+
+
+    2'. DOMpurify HTML 뷰어 ; 굳이 안 해도 됨~
+        1. CDN 추가
+        2. board_detail.html에 script영역 추가
+        3. 게시판 content 출력 영역에 `id="content_view"` 추가
+
+  7. 게시판 검색 기능 추가
+      1. `@Query` : DATA JPA Query annotation, JPA 상에서 SQL쿼리와 유사한 방식으로 부가적인 기능을 만들고자 할 때 사용!!
+        ; 표준 SQL이 아니라서 DBeaver, MySQL Workbench 등에서 사용 불가 !!
+      2. BoardRepository에 JPA Query 어노테이션 사용 메서드 추가
+      3. BoardService 에 getBoardList() 변경
+      4. BoardController에 getList() 키워드 파라미터 추가
+      5. board_list.html 검색부분 추가
+
+9. 나중에 추가해야 할 부분 !!
+   1. [ ] 회원가입 후 바로 로그인 되는 기능
+   2. [ ] 로그인 한 사람 표시 기능
+   3. [ ] 테마(라이트, 다크)
+   4. [ ] 파일 업로드
+`````
