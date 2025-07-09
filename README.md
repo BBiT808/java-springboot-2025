@@ -924,9 +924,65 @@ https://github.com/user-attachments/assets/cf744b45-4573-49c8-a815-ce2ae3c047eb
       4. BoardController에 getList() 키워드 파라미터 추가
       5. board_list.html 검색부분 추가
 
+
+
+## 12일차 !!
+
+### 스프링부트 Backboard 프로젝트(계속)
+1. 현재 게시판 검색 중 발생 문제
+    - Board content 변수(테이블 컬럼), Column(length = 8000)인 경우
+    - Oracle에서 컬럼 타입이 CLOB(Char acter Large OBject) 로 생성
+    - CLOB : 최대 2GB 텍스트 데이터 저장 가능. 대용량 저장 가능
+    - 단, WHERE LIKE 문 사용 불가
+    - Query annotation에서 `select distinct`를 사용하면 CLOB 컬럼 조회와 충돌 발생 !!
+    - 해결방법
+        1. Oracle Text 사용 : 검색용 인덱스를 추가 생성. JPA Native query로 CONTATINS() 함수 사용
+        2. ElasticSearch : 외부 서비스 사용해서 검색을 최적화. 도커에 엘라스틱서치 설치, 연동
+        3. 검색용 필드 추가 : VARCHAR(4000) 검색용 필드 content_search 컬럼 추가 생성. content에서 html 태그 제거, 검색 가능 단어만 저장하는 컬럼
+
+2. 게시판 검색(계속)
+    1. BoardRepository findAllByKeyword 의 `@Query`를 편집. reply 제거, dictinct 키워드 제거
+    2. 11일차 게시판 검색 기능 추가와 동일
+    3. board_list.html 검색부분, form 히든 영역, javascript  추가
+
+3. 파일 업로드
+    1. Board Entity에 파일 업로드 관련 변수 -> 컬럼
+    2. BoardController 게시글 저장 메서드에 파일업로드 로직 추가
+    3. BoardService setBoardOne() 메서드 수정
+    4. application.properties에 파일 업로드 위치 설정
+    5. board_create.html에 파일 업로드 입력 + form 태그 encrtype 수정
+    6. board_detail.html에 파일 다울로드 링크 추가
+    7. BoardController에 파일 다운로드 GetMapping 추가
+    8. 게시글 수정 시 업로드 관련 처리
+    9. BoardController 수정관련 GetMapping 매서드 로직 추가
+  10. BoardService purBoardOne() 메서드에 파일관련 파라미터 추가, 로직 수정
+  11. 파일 업로드 사이즈 설정 ; application properties에 !!
+  12. 파일 업로드 시 파일명에 한글이 있으면 문제 발생 ! - 한글을 UTF로 인코딩해서 저장 !!
+
+
+## 13일차
+
+### 스프링부트 Backboard 프로젝트(계속)
+1. 구글 로그인
+    1. 구글..
+
+
+
+
+
+
+
 9. 나중에 추가해야 할 부분 !!
-   1. [ ] 회원가입 후 바로 로그인 되는 기능
-   2. [ ] 로그인 한 사람 표시 기능
-   3. [ ] 테마(라이트, 다크)
-   4. [ ] 파일 업로드
+   1. [x] 회원가입 후 바로 로그인 되는 기능
+   2. [x] 로그인 한 사람 표시 기능
+   3. [ ] 테마(라이트, 다크) - PASS!!
+   4. [x] 파일 업로드
+   5. [ ] 부트스트랩 프리테마 NiceSchool로 변경
+   6. [ ] 파일사이즈 초과 시 JS로 방지
+   6. [ ] 구글 로그인
+   7. [ ] AWS 라이트세일 업로드
+
+
+
+
 `````
