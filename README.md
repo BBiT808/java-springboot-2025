@@ -1232,13 +1232,97 @@ https://github.com/user-attachments/assets/cf744b45-4573-49c8-a815-ce2ae3c047eb
 
 
 
+## 17일차
 
+### 공공데이터 포털 OpenAPI 활용
+1. 새 프로젝트 생성
+    1. 명령 팔레트... (Ctrl + Shift + P)
+    2. Spring Initializr :
 
-3. 추가 오류 확인
-    1. admin/manage,
+2. application.properties 초기설정
 
+  ```properties
+      ## 서버포트
+    server.port=9099
 
+    ## 로그색상 변경
+    spring.output.ansi.enabled=always
 
+    ## 서버 자동재시작
+    spring.devtools.restart.enabled=true
+    spring.devtools.livereload.enabled=true
+    spring.devtools.restart.additional-paths=src/main/java
+
+    ## 커스텀 에러 관련
+    # 기본 Whitelabel Error Page 비활성화
+    server.error.whitelabel.enabled=true
+
+  ```
+
+3. 데이터 포털 들어가기!! (공공데이터포털 : https://data.go.kr/)
+    1. 회원가입 및 로그인
+    2. 부산광역시 부산 맛집 정보 서비스 활용 신청
+
+        <img src="./image/sb0018.png" width ="700">
+
+    3. 마이페이지 > 데이터활용 > Open API > 활용신청 현황
+    4. 개발 계정 상세 보기
+        - 일반 인증키(Encoding) 사용, 복사
+    5. 활용정보 상세 기능 정보 > 원하는 서비스 미리보기 확인 클릭
+        - 서비스키 입 력
+        -resultType 입력후 미리보기 클릭
+    6. 미리보기
+
+        <img src="./image/sb0019.png" width="600">
+
+4. OpenAPI 호출 로직 구현
+    1. 패키지 생성
+      1. controller : 사용자 요청 진입점. 많은 로직이 들어가지 않고 동작만 정의
+      2. dto : 서버 내에서 사용할 데이터를 주고 받을 때
+      3. entity : DB에 저장될 테이블 정의. 데이터 전달할 때
+      4. repository : JPA 등 DB에 저장할 때 필요한 인터페이스
+      5. service : 동작할 로직이 정의되어 있을 실제 일할 부분
+
+    2. controller.RestaurantController 생성!
+      - 기본요청 RESTful URL GetMapping 메서드 생성
+
+    3. service.RestaurantService 생성
+        -fetchRestaurants() 메서드 작성
+    4. build.gradle JSON용 라이브러리 의존성 추가
+
+      ```groovy
+      // 파싱 라이브러리
+      implementation 'com.fasterxml.jackson.core:jackson-databind'
+      ```
+
+    5. JSON 결과를 담을 모델클래스 생성
+      1. dto.ApiResponse 클래스
+      2. dto.Item 클래스
+
+    6. service.RestaurantService
+        - JSON 파싱 완료, 리턴 로직 추가
+
+    7. pageNo 콤보박스 추가 페이징 처리
+
+    8. Bootstrap 디자인 접목
+
+5. RestAPI 서비스
+  1. controller.RestaurantRestController 생성
+
+6. DB 저장
+  1. build.gradle 의존성 추가 !!
+
+    ```groovy
+        // DB연동용 의존성
+      runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+      // 운영용 Oracle
+      implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    ```
+  2. application.properties에 DB, JPA 설정 추가!!
+  3. entity.ItemEntity 클래스 생성
+  4. repository.RestaurantRepository 생성
+  5. html 페이지에 저장버튼
+  6. 저장처리 로직 구현
 
 9. 나중에 추가해야 할 부분 !!
    1. [x] 회원가입 후 바로 로그인 되는 기능
@@ -1252,6 +1336,8 @@ https://github.com/user-attachments/assets/cf744b45-4573-49c8-a815-ce2ae3c047eb
    9. [ ] 게시글에 이미지 추가시 img 태그에 width="100%" 추가작업
    10. [ ] 사용자 정보에 Role 추가
 
+9-1. 추가 오류 확인
+    1. admin/manage,
 
 
 
